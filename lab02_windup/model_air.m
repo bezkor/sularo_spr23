@@ -13,3 +13,4 @@ function dx=model_air(t,x,u)
   dx(1)=-0.313*alpha+56.7*omega+0.234*u;
   dx(2)=-0.0139*alpha-0.426*omega+0.0203*u;
   dx(3)=56.7*omega;
+
