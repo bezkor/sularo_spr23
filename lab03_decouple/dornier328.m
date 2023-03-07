@@ -16,7 +16,7 @@ function outsys = dornier328 ()
 % (3) - кутова швидкість крену
 % (4) - кут крену
 
-  if (nargin != 0)
+  if (nargin ~= 0)
     print_usage ();
   end
   a = [-0.8700,  6.4700, -0.4110, 0.0;
@@ -37,6 +37,6 @@ function outsys = dornier328 ()
   inam = {"aileron"; "rudder"};
   onam = {"yawspd"; "roll"};
 
-  outsys = ss (a, b, c, d, "inname", inam, "outname", onam);
+  outsys = ss (a, b, c, d, 'InputName', inam, 'OutputName', onam);
 
 end
