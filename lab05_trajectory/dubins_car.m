@@ -16,10 +16,10 @@ u_bound = 30;    % Обмеження на керування в град/с
 V = 10;          % Швидкість переміщення  в м/с
 
 % Обмеження керування
-if (u>u_bound), 
+if (u > u_bound), 
     u = u_bound; 
 end;
-if (u<-u_bound),
+if (u < -u_bound),
     u = -u_bound; 
 end;
 
