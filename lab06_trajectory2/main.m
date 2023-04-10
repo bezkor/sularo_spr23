@@ -58,27 +58,33 @@ sim_model_line_corr=@(t,x) model_line(t,x,flight_plan_corr,disturbance);
 
 % Візуалізація виконання польотного плану
 figure(1)
-plot(y_angle(:,1),y_angle(:,2),'g-','LineWidth',2,...
-     y_line(:,1),y_line(:,2),'r-','LineWidth',3,...
-     flight_plan(:,[1,3])',flight_plan(:,[2,4])','b*--','LineWidth',1);
+plot(y_angle(:,1),y_angle(:,2),'g-','LineWidth',2)
+hold on;
+plot(y_line(:,1),y_line(:,2),'r-','LineWidth',3);
+plot(flight_plan(:,[1,3])',flight_plan(:,[2,4])','b*--','LineWidth',1);
+hold off;
 axis equal
 grid on
 legend('Польот за ЛЗШ (кут)','Польот за ЛЗШ (шлях)','План польоту');
 title('Порівняння траекторій польоту за кутови та шляховим методом');
 
 figure(2)
-plot(y_angle_corr(:,1),y_angle_corr(:,2),'r-','LineWidth',2,...
-     y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3,...
-     flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+plot(y_angle_corr(:,1),y_angle_corr(:,2),'r-','LineWidth',2);
+hold on;
+plot(y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3);
+plot(flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+hold off
 axis equal
 grid on
 legend('Польот за ЛЗШ (кут)','Польот за ЛЗШ (шлях)','План польоту');
 title('Порівняння скоригованих траекторій польоту за кутови та шляховим методом');
 
 figure(3)
-plot(y_line(:,1),y_line(:,2),'r-','LineWidth',2,...
-     y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3,...
-     flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+plot(y_line(:,1),y_line(:,2),'r-','LineWidth',2);
+hold on;
+plot(y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3);
+plot(flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+hold off;
 axis equal
 grid on
 legend('Польот за ЛЗШ','Польот за ЛЗШ (скоригований)','План польоту');
