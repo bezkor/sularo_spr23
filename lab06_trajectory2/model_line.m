@@ -11,12 +11,12 @@ function dx = model_line(t,x,flight_plan,disturbance)
   persistent waypoint;
   if isempty(waypoint),
     waypoint = 1;
-  end
+  end;
 
   % При проходженні кінцевої точки зупинити моделювання
   if waypoint > waypoint_number,
     return;
-  endif
+  end;
 
   % Поточне положення
   x_current=x(1);

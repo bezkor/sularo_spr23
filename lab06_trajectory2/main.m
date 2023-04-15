@@ -47,21 +47,6 @@ sim_model_line=@(t,x) model_line(t,x,flight_plan,disturbance);
 % Корекція польотного плану
 flight_plan_corr = flight_plan;
 
-
-Rmin = 40/30*180/pi
-
-for i=1:size(flight_plan,1)-1,
-  a1=atan2(flight_plan(i,4)-flight_plan(i,2),flight_plan(i,3)-flight_plan(i,1));
-  a2=atan2(flight_plan(i+1,4)-flight_plan(i+1,2),flight_plan(i+1,3)-flight_plan(i+1,1));
-  a=a2-a1;
-  L=abs(Rmin*tan(a/2));
-  disp([i, rad2deg(a), L]);
-  flight_plan_corr(i,3)=flight_plan(i,3)-L*cos(a1);
-  flight_plan_corr(i,4)=flight_plan(i,4)-L*sin(a1);
-  end;
-
-
-
 % Польот за ЛЗШ кутовим методом коррекції з корекцією плану
 clear model_vor;
 sim_model_vor_corr=@(t,x) model_vor(t,x,flight_plan_corr,disturbance);
