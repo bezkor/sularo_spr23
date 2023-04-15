@@ -9,6 +9,7 @@ tflight=[0:1:800];
 flight_plan_x=[0 250 750 1250 1500]
 flight_plan_y=[0 0   500 0    0]
 
+
 % Стартова позиція
 start_pos=[flight_plan_x(1),flight_plan_y(1),0];
 
@@ -28,9 +29,9 @@ end;
 disturbance = @(t) [0,0,0]';
 
 % Польот за ЛЗШ кутовим методом коррекції
-clear model_angle;
-sim_model_angle=@(t,x) model_angle(t,x,flight_plan,disturbance);
-[t,y_angle]=ode45(sim_model_angle,tflight,start_pos,ode_opts);
+clear model_vor;
+sim_model_vor=@(t,x) model_vor(t,x,flight_plan,disturbance);
+[t,y_vor]=ode45(sim_model_vor,tflight,start_pos,ode_opts);
 
 % Польот за ЛЗШ шляховим методом коррекції
 clear model_line;
@@ -46,10 +47,25 @@ sim_model_line=@(t,x) model_line(t,x,flight_plan,disturbance);
 % Корекція польотного плану
 flight_plan_corr = flight_plan;
 
+
+Rmin = 40/30*180/pi
+
+for i=1:size(flight_plan,1)-1,
+  a1=atan2(flight_plan(i,4)-flight_plan(i,2),flight_plan(i,3)-flight_plan(i,1));
+  a2=atan2(flight_plan(i+1,4)-flight_plan(i+1,2),flight_plan(i+1,3)-flight_plan(i+1,1));
+  a=a2-a1;
+  L=abs(Rmin*tan(a/2));
+  disp([i, rad2deg(a), L]);
+  flight_plan_corr(i,3)=flight_plan(i,3)-L*cos(a1);
+  flight_plan_corr(i,4)=flight_plan(i,4)-L*sin(a1);
+  end;
+
+
+
 % Польот за ЛЗШ кутовим методом коррекції з корекцією плану
-clear model_angle;
-sim_model_angle_corr=@(t,x) model_angle(t,x,flight_plan_corr,disturbance);
-[t,y_angle_corr]=ode45(sim_model_angle_corr,tflight,start_pos,ode_opts);
+clear model_vor;
+sim_model_vor_corr=@(t,x) model_vor(t,x,flight_plan_corr,disturbance);
+[t,y_vor_corr]=ode45(sim_model_vor_corr,tflight,start_pos,ode_opts);
 
 % Польот за ЛЗШ шляховим методом коррекції з корекцією плану
 clear model_line;
@@ -58,34 +74,48 @@ sim_model_line_corr=@(t,x) model_line(t,x,flight_plan_corr,disturbance);
 
 % Візуалізація виконання польотного плану
 figure(1)
-plot(y_angle(:,1),y_angle(:,2),'g-','LineWidth',2,...
-     y_line(:,1),y_line(:,2),'r-','LineWidth',3,...
-     flight_plan(:,[1,3])',flight_plan(:,[2,4])','b*--','LineWidth',1);
+plot(y_vor(:,1),y_vor(:,2),'g-','LineWidth',2);
+hold on;
+plot(y_line(:,1),y_line(:,2),'r-','LineWidth',3);
+plot(flight_plan(:,[1,3])',flight_plan(:,[2,4])','b*--','LineWidth',1);
+hold off;
 axis equal
 grid on
-legend('Польот за ЛЗШ (кут)','Польот за ЛЗШ (шлях)','План польоту');
-title('Порівняння траекторій польоту за кутови та шляховим методом');
+legend('Польот за ЛЗШ (VOR/DME)','Польот за ЛЗШ (GPS)','План польоту');
+title('Порівняння траекторій польоту за кутовим та шляховим методом');
+
 
 figure(2)
-plot(y_angle_corr(:,1),y_angle_corr(:,2),'r-','LineWidth',2,...
-     y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3,...
-     flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+plot(y_vor_corr(:,1),y_vor_corr(:,2),'r-','LineWidth',2);
+hold on;
+plot(y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3);
+plot(flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+hold off;
 axis equal
 grid on
-legend('Польот за ЛЗШ (кут)','Польот за ЛЗШ (шлях)','План польоту');
-title('Порівняння скоригованих траекторій польоту за кутови та шляховим методом');
+legend('Польот за ЛЗШ скор (VOR)','Польот за ЛЗШ скор (GPS)','План польоту');
+title('Порівняння скоригованих траекторій польоту за кутовим та шляховим методом');
+
 
 figure(3)
-plot(y_line(:,1),y_line(:,2),'r-','LineWidth',2,...
-     y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3,...
-     flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+plot(y_vor(:,1),y_vor(:,2),'r-','LineWidth',2);
+hold on;
+plot(y_vor_corr(:,1),y_vor_corr(:,2),'g-','LineWidth',3);
+plot(flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+hold off;
 axis equal
 grid on
-legend('Польот за ЛЗШ','Польот за ЛЗШ (скоригований)','План польоту');
+legend('Польот за ЛЗШ (VOR/DME)','Польот за ЛЗШ корр (VOR/DME)','План польоту');
 title('Порівняння траекторій польоту за шляховим методом');
 
-
-
-
-
+figure(4)
+plot(y_line(:,1),y_line(:,2),'r-','LineWidth',2);
+hold on;
+plot(y_line_corr(:,1),y_line_corr(:,2),'g-','LineWidth',3);
+plot(flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
+hold off;
+axis equal
+grid on
+legend('Польот за ЛЗШ (GPS)','Польот за ЛЗШ корр (GPS)','План польоту');
+title('Порівняння траекторій польоту за шляховим методом');
 

@@ -1,6 +1,6 @@
 # Планування траекторії руху ЛА (2)
 
-1. Виконати симуляцію польоту з плануванням польоту за ЛЗШ
+1. Виконати симуляцію польоту з плануванням польоту за ЛЗШ  навігацією по системах VOR/DME та GPS
 
 2. Дослідити та порівняти вплив вітрових збурень на траекторію польоту
 
@@ -16,5 +16,10 @@
 
 ## Посилання
 
-https://en.wikipedia.org/wiki/Dubins_path
+https://uk.wikipedia.org/wiki/%D0%A1%D0%B8%D1%81%D1%82%D0%B5%D0%BC%D0%B0_%D1%83%D0%BF%D1%80%D0%B0%D0%B2%D0%BB%D1%96%D0%BD%D0%BD%D1%8F_%D0%BF%D0%BE%D0%BB%D1%8C%D0%BE%D1%82%D0%BE%D0%BC_%D0%BB%D1%96%D1%82%D0%B0%D0%BA%D0%B0
 
+https://uk.wikipedia.org/wiki/VOR
+
+https://uk.wikipedia.org/wiki/DME
+
+https://www.aircraftsystemstech.com/2017/05/global-positioning-system-gps.html

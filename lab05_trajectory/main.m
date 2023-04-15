@@ -77,7 +77,7 @@ title('Порівняння траекторій польоту за ППМ та
 hold off;
 
 figure(2)
-plot(y_direct(:,1),y_direct(:,2),'r-','LineWidth',2); 
+plot(y_direct(:,1),y_direct(:,2),'r-','LineWidth',2);
 hold on;
 plot(y_angle_corr(:,1),y_angle_corr(:,2),'g-','LineWidth',2);
 plot(flight_plan_corr(:,[1,3])',flight_plan_corr(:,[2,4])','b*--','LineWidth',1);
